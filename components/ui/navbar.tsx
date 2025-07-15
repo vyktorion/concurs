@@ -1,12 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Music2, Menu, X, User, LogIn } from 'lucide-react';
-import { Button } from './button';
-import { ThemeToggle } from '@/components/theme-toggle';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
+import { motion } from 'framer-motion';
+import { Music2, Menu, X, LayoutDashboard, LogOut } from 'lucide-react';
+import { Button } from './button';
+import { ThemeToggle } from '@/components/theme-toggle';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+} from '@/components/ui/navigation-menu';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +24,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2 cursor-pointer">
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
@@ -32,39 +39,50 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link 
-              href="/" 
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+            <Link
+              href="/"
+              className="text-gray-700 dark:text-gray-300 font-medium cursor-pointer"
             >
               Acasă
             </Link>
-            
+
             {session ? (
-              <>
-                <Link 
-                  href="/dashboard" 
-                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
-                >
-                  Dashboard
-                </Link>
-                <Button
-                  onClick={() => signOut()}
-                  variant="ghost"
-                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                >
-                  <User className="h-4 w-4 mr-2" />
-                  Ieșire
-                </Button>
-              </>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-gray-700 dark:text-gray-300 cursor-pointer">
+                      Contul meu
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md rounded-md px-2 py-1 space-y-1">
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center px-2 py-1 text-gray-700 dark:text-gray-300 cursor-pointer"
+                      >
+                        <LayoutDashboard className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </Link>
+                      <button
+                        onClick={() => signOut()}
+                        className="flex items-center w-full px-2 py-1 text-red-500 dark:text-red-500 cursor-pointer"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Ieșire
+                      </button>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             ) : (
               <Link href="/login">
-                <Button variant="ghost" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-                  <LogIn className="h-4 w-4 mr-2" />
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 dark:text-gray-300 cursor-pointer"
+                >
                   Conectare
                 </Button>
               </Link>
             )}
-            
+
             <ThemeToggle />
           </div>
 
@@ -75,7 +93,7 @@ export function Navbar() {
               variant="ghost"
               size="sm"
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 dark:text-gray-300"
+              className="text-gray-700 dark:text-gray-300 cursor-pointer"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -91,39 +109,45 @@ export function Navbar() {
             className="md:hidden py-4 border-t border-gray-200/20 dark:border-gray-700/20"
           >
             <div className="flex flex-col space-y-3">
-              <Link 
-                href="/" 
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium px-2 py-1"
+              <Link
+                href="/"
+                className="text-gray-700 dark:text-gray-300 font-medium px-2 py-1 cursor-pointer"
                 onClick={() => setIsOpen(false)}
               >
                 Acasă
               </Link>
-              
+
               {session ? (
                 <>
-                  <Link 
-                    href="/dashboard" 
-                    className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium px-2 py-1"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Dashboard
-                  </Link>
+                  <div className="flex justify-center">
+                  <Link
+               href="/dashboard"
+               className="flex items-center text-gray-700 dark:text-gray-300 font-medium px-2 py-1 cursor-pointer"
+               onClick={() => setIsOpen(false)}
+                 >
+                   <LayoutDashboard className="h-4 w-4 mr-2" />
+                      Dashboard
+                    </Link>
+                   </div>
                   <Button
                     onClick={() => {
                       signOut();
                       setIsOpen(false);
                     }}
-                    variant="ghost"
-                    className="justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-2"
-                  >
-                    <User className="h-4 w-4 mr-2" />
+                variant="outline"
+                size="sm"
+                className="rounded-xl border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20"
+               >
+                    <LogOut className="h-4 w-4 mr-2" />
                     Ieșire
                   </Button>
                 </>
               ) : (
                 <Link href="/login" onClick={() => setIsOpen(false)}>
-                  <Button variant="ghost" className="justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-2">
-                    <LogIn className="h-4 w-4 mr-2" />
+                  <Button
+                    variant="ghost"
+                    className="justify-start text-gray-700 dark:text-gray-300 px-2 cursor-pointer"
+                  >
                     Conectare
                   </Button>
                 </Link>
