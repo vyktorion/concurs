@@ -4,10 +4,6 @@ import { motion } from 'framer-motion';
 import { Filter } from 'lucide-react';
 import { Button } from './ui/button';
 import { Contest } from '@/types/contest';
-import { Search, Music2, Sparkles, LayoutGrid, List } from 'lucide-react';
-import { useState, useEffect } from 'react';
-
-
 
 interface LocationFilterProps {
   contests: Contest[];
@@ -27,7 +23,6 @@ export function LocationFilter({ contests, selectedLocation, onLocationChange }:
 
   // Calculăm totalul pentru "Toate"
   const totalContests = contests.length;
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   return (
     <motion.div
@@ -36,11 +31,10 @@ export function LocationFilter({ contests, selectedLocation, onLocationChange }:
       transition={{ duration: 0.5 }}
       className="flex flex-wrap items-center gap-3 p-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 dark:border-gray-700/20"
     >
-
       {/* Iconița de filtru */}
       <div className="flex items-center space-x-2 mr-2">
         <Filter className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-        <span className="text-gray-700 dark:text-gray-300 font-medium">Filtrează </span>
+        <span className="text-gray-700 dark:text-gray-300 font-medium">Filtrează după localitate:</span>
       </div>
 
       {/* Butonul "Toate" */}

@@ -359,7 +359,6 @@ export default function DashboardPage() {
           setEditingContest(null);
         }}
       />
-      
   <Footer />
     </div>
   );
