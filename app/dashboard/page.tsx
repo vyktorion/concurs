@@ -23,6 +23,8 @@ import { Contest } from '@/types/contest';
 import { ContestModal } from '@/components/contest-modal';
 import { ContestForm } from '@/components/contest-form';
 import { DashboardNavbar } from '@/components/dashboard-navbar';
+import { Footer } from '@/components/ui/footer';
+
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -165,7 +167,7 @@ export default function DashboardPage() {
           </motion.div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {[
               { 
                 title: 'Total Concursuri', 
@@ -184,12 +186,6 @@ export default function DashboardPage() {
                 value: new Set(contests.map(c => c.localitate)).size, 
                 icon: MapPin, 
                 color: 'from-purple-500 to-purple-600' 
-              },
-              { 
-                title: 'Participanți Est.', 
-                value: contests.length * 50, 
-                icon: Users, 
-                color: 'from-orange-500 to-orange-600' 
               }
             ].map((stat, index) => (
               <motion.div
@@ -246,7 +242,7 @@ export default function DashboardPage() {
                       Nu ai concursuri încă
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-6">
-                      Creează primul tău concurs pentru a începe.
+                      Listeaza primul tău concurs.
                     </p>
                     <Button
                       onClick={handleCreateContest}
@@ -363,6 +359,8 @@ export default function DashboardPage() {
           setEditingContest(null);
         }}
       />
+      
+  <Footer />
     </div>
   );
 }
