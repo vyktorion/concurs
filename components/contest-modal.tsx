@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, MapPin, Building, Globe, ExternalLink } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
@@ -16,7 +17,6 @@ interface ContestModalProps {
 export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
   if (!contest) return null;
 
-  // Prevenim dubla deschidere
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -32,6 +32,14 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
     });
   };
 
+  // Blochează scroll pe body când modalul e deschis
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -39,15 +47,15 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-start sm:items-center justify-center backdrop-blur-sm overflow-y-auto"
           onClick={handleBackdropClick}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full h-full sm:h-auto sm:max-w-4xl sm:max-h-[90vh] sm:m-4 overflow-hidden"
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="relative bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full sm:max-w-4xl sm:max-h-[90vh] sm:m-4 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -60,8 +68,8 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
               <X className="h-5 w-5" />
             </Button>
 
-            <div className="flex flex-col lg:flex-row h-full">
-              {/* Left Section - Image */}
+            <div className="flex flex-col lg:flex-row">
+              {/* Left Image Section */}
               <div className="w-full lg:w-1/2 relative h-48 sm:h-64 lg:h-auto bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500">
                 {contest.logoUrl ? (
                   <Image
@@ -80,18 +88,15 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
               </div>
 
-              {/* Right Section - Content */}
-              <div className="flex-1 lg:w-1/2 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+              {/* Right Content Section */}
+              <div className="flex-1 lg:w-1/2 p-4 sm:p-6 lg:p-8 overflow-y-auto max-h-[90vh]">
                 <div className="space-y-6">
-                  {/* Title */}
-                  <div>
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                      {contest.nume}
-                    </h2>
-                  </div>
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">
+                    {contest.nume}
+                  </h2>
 
-                  {/* Details */}
                   <div className="space-y-4">
+                    {/* Date */}
                     <div className="flex items-center space-x-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl">
                       <Calendar className="h-5 w-5 text-blue-600" />
                       <div>
@@ -100,6 +105,7 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                       </div>
                     </div>
 
+                    {/* Localitate */}
                     <div className="flex items-center space-x-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-2xl">
                       <MapPin className="h-5 w-5 text-purple-600" />
                       <div>
@@ -108,6 +114,7 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                       </div>
                     </div>
 
+                    {/* Locația */}
                     <div className="flex items-center space-x-3 p-3 bg-cyan-50 dark:bg-cyan-900/20 rounded-2xl">
                       <Building className="h-5 w-5 text-cyan-600" />
                       <div>
@@ -116,14 +123,14 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                       </div>
                     </div>
 
-                    {/* Address */}
+                    {/* Adress */}
                     <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
                       <p className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Adresa completă</p>
                       <p className="text-gray-600 dark:text-gray-400">{contest.adresa}</p>
                     </div>
                   </div>
 
-                  {/* Description */}
+                  {/* Descriere */}
                   <div>
                     <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Despre concurs</h3>
                     <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-line">
@@ -131,7 +138,7 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                     </p>
                   </div>
 
-                  {/* Links */}
+                  {/* Linkuri */}
                   <div className="space-y-4">
                     {contest.linkSiteOficial && (
                       <Button
@@ -146,12 +153,11 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                       </Button>
                     )}
 
-                    {/* Social Media */}
                     {(contest.socialMedia?.facebook || contest.socialMedia?.instagram || contest.socialMedia?.tiktok) && (
-                      <div>
-                        <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Urmărește-ne</h4>
+                      <>
+                        <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">Urmărește-ne</h4>
                         <div className="flex flex-wrap gap-3">
-                          {contest.socialMedia?.facebook && (
+                          {contest.socialMedia.facebook && (
                             <motion.a
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.95 }}
@@ -163,7 +169,7 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                               <FaFacebook className="h-5 w-5" />
                             </motion.a>
                           )}
-                          {contest.socialMedia?.instagram && (
+                          {contest.socialMedia.instagram && (
                             <motion.a
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.95 }}
@@ -175,7 +181,7 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                               <FaInstagram className="h-5 w-5" />
                             </motion.a>
                           )}
-                          {contest.socialMedia?.tiktok && (
+                          {contest.socialMedia.tiktok && (
                             <motion.a
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.95 }}
@@ -188,7 +194,7 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
                             </motion.a>
                           )}
                         </div>
-                      </div>
+                      </>
                     )}
                   </div>
                 </div>
