@@ -50,8 +50,8 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
               <X className="h-5 w-5" />
             </Button>
 
-            <div className="overflow-y-auto max-h-full p-6 md:max-h-[calc(90vh-2rem)]">
-              <main className="flex-1 max-w-6xl mx-auto p-4 space-y-8 pt-8">
+            <div className="overflow-y-auto max-h-full p-2 md:max-h-[calc(90vh-2rem)]">
+              <main className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-8 space-y-8 pt-8">
                 <div className="flex flex-col lg:flex-row gap-6">
                   <div className="lg:w-1/2 space-y-4">
                     <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-6">{contest.nume}</h2>
