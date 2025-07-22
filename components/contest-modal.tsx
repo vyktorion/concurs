@@ -33,14 +33,14 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
           onClick={onClose}
         >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 250 }}
-            className="fixed inset-0 bg-white dark:bg-gray-900 md:rounded-3xl md:max-w-6xl md:mx-auto shadow-2xl overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
+         <motion.div
+  initial={{ scale: 0.8, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  exit={{ scale: 0.8, opacity: 0 }}
+  transition={{ type: 'spring', damping: 20, stiffness: 250 }}
+  className="fixed inset-0 bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto rounded-none md:rounded-3xl md:max-w-6xl md:mx-auto"
+  onClick={(e) => e.stopPropagation()}
+>
             <Button
               onClick={onClose}
               variant="ghost"
@@ -51,7 +51,7 @@ export function ContestModal({ contest, isOpen, onClose }: ContestModalProps) {
             </Button>
 
             <div className="overflow-y-auto max-h-full p-6 md:max-h-[calc(90vh-2rem)]">
-              <main className="flex-1 max-w-6xl mx-auto p-4 space-y-8 pt-8 mt-12">
+              <main className="flex-1 max-w-6xl mx-auto p-4 space-y-8 pt-8">
                 <div className="flex flex-col lg:flex-row gap-6">
                   <div className="lg:w-1/2 space-y-4">
                     <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-6">{contest.nume}</h2>
